@@ -7,11 +7,15 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { Badge } from '@/components/ui/badge';
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from '@/components/ui/dialog';
 import Icon from '@/components/ui/icon';
+import AdminPanel from '@/components/AdminPanel';
+import InteractiveGame from '@/components/InteractiveGame';
 
 const Index = () => {
   const [currentUser, setCurrentUser] = useState<{ role: string; username: string } | null>(null);
   const [loginForm, setLoginForm] = useState({ username: '', password: '' });
   const [currentTime, setCurrentTime] = useState(new Date());
+  const [showAdminPanel, setShowAdminPanel] = useState(false);
+  const [currentSection, setCurrentSection] = useState('home');
 
   useEffect(() => {
     const timer = setInterval(() => {
@@ -210,7 +214,11 @@ const Index = () => {
                       {section.id === 'gallery' && 'Фотографии с мероприятий и занятий'}
                       {section.id === 'contacts' && 'Контактная информация и обратная связь'}
                     </p>
-                    <Button variant="outline" className="w-full hover:bg-blue-50">
+                    <Button 
+                      variant="outline" 
+                      className="w-full hover:bg-blue-50 transition-all duration-300 hover:scale-105"
+                      onClick={() => setCurrentSection(section.id)}
+                    >
                       Перейти к разделу
                     </Button>
                   </CardContent>
@@ -220,8 +228,24 @@ const Index = () => {
           </TabsContent>
 
           <TabsContent value="children" className="space-y-8">
+            <div className="mb-8">
+              <div className="bg-gradient-to-r from-purple-100 to-pink-100 p-6 rounded-3xl border-4 border-purple-200 animate-fade-in">
+                <div className="text-center">
+                  <div className="text-6xl mb-4 animate-bounce">🎮</div>
+                  <h3 className="text-3xl font-bold text-purple-800 mb-4">Интерактивные игры</h3>
+                  <p className="text-lg text-purple-600 mb-6">Учись играя! Изучай Россию через веселые задания</p>
+                  <Button 
+                    onClick={() => setCurrentSection('games')}
+                    className="bg-gradient-to-r from-purple-500 to-pink-500 hover:from-purple-600 hover:to-pink-600 text-white text-lg px-8 py-3 rounded-full transition-all duration-300 hover:scale-110 animate-pulse-color"
+                  >
+                    🚀 Начать играть!
+                  </Button>
+                </div>
+              </div>
+            </div>
+
             <div className="grid md:grid-cols-2 gap-8">
-              <Card className="bg-gradient-to-br from-yellow-100 to-orange-100 border-4 border-yellow-300">
+              <Card className="bg-gradient-to-br from-yellow-100 to-orange-100 border-4 border-yellow-300 hover:shadow-2xl transition-all duration-500 hover:-translate-y-2 animate-fade-in">
                 <CardHeader>
                   <CardTitle className="text-2xl text-center">🎨 Творческая мастерская</CardTitle>
                 </CardHeader>
@@ -229,40 +253,38 @@ const Index = () => {
                   <img 
                     src="/img/9470473d-6a25-4b13-92f5-4ad66c990ab8.jpg" 
                     alt="Дети с кубиками ABC" 
-                    className="w-full h-48 object-cover rounded-xl"
+                    className="w-full h-48 object-cover rounded-xl hover:scale-105 transition-transform duration-300"
                   />
                   <div className="grid grid-cols-2 gap-4">
-                    <Button className="bg-red-400 hover:bg-red-500 text-white">🖍️ Рисование</Button>
-                    <Button className="bg-blue-400 hover:bg-blue-500 text-white">✂️ Поделки</Button>
-                    <Button className="bg-green-400 hover:bg-green-500 text-white">🎭 Театр</Button>
-                    <Button className="bg-purple-400 hover:bg-purple-500 text-white">🎵 Музыка</Button>
+                    <Button className="bg-red-400 hover:bg-red-500 text-white transition-all duration-300 hover:scale-110">🖍️ Рисование</Button>
+                    <Button className="bg-blue-400 hover:bg-blue-500 text-white transition-all duration-300 hover:scale-110">✂️ Поделки</Button>
+                    <Button className="bg-green-400 hover:bg-green-500 text-white transition-all duration-300 hover:scale-110">🎭 Театр</Button>
+                    <Button className="bg-purple-400 hover:bg-purple-500 text-white transition-all duration-300 hover:scale-110">🎵 Музыка</Button>
                   </div>
                 </CardContent>
               </Card>
 
-              <Card className="bg-gradient-to-br from-blue-100 to-purple-100 border-4 border-blue-300">
+              <Card className="bg-gradient-to-br from-blue-100 to-purple-100 border-4 border-blue-300 hover:shadow-2xl transition-all duration-500 hover:-translate-y-2 animate-slide-in-right">
                 <CardHeader>
-                  <CardTitle className="text-2xl text-center">🚀 Игры и задания</CardTitle>
+                  <CardTitle className="text-2xl text-center">📺 Прямой эфир</CardTitle>
                 </CardHeader>
                 <CardContent className="space-y-4">
+                  <div className="bg-gradient-to-r from-red-500 to-pink-500 text-white p-4 rounded-xl">
+                    <div className="flex items-center justify-center space-x-2 mb-2">
+                      <div className="w-3 h-3 bg-white rounded-full animate-pulse"></div>
+                      <span className="font-bold">ПРЯМОЙ ЭФИР</span>
+                    </div>
+                    <h4 className="text-xl font-bold text-center">Утренняя зарядка с Мишкой 🐻</h4>
+                    <p className="text-center text-red-100">234 зрителя смотрят сейчас</p>
+                  </div>
                   <div className="grid grid-cols-1 gap-3">
-                    <Button variant="outline" className="text-left h-auto p-4 hover:bg-blue-50">
-                      <div>
-                        <div className="font-semibold">🧩 Пазлы "Моя Россия"</div>
-                        <div className="text-sm text-gray-600">Собери карту России из пазлов</div>
-                      </div>
+                    <Button className="bg-gradient-to-r from-red-400 to-pink-400 hover:from-red-500 hover:to-pink-500 text-white">
+                      <Icon name="Play" className="mr-2" size={16} />
+                      Смотреть сейчас
                     </Button>
-                    <Button variant="outline" className="text-left h-auto p-4 hover:bg-green-50">
-                      <div>
-                        <div className="font-semibold">🎯 Викторина "Знаешь ли ты?"</div>
-                        <div className="text-sm text-gray-600">Отвечай на вопросы о родной стране</div>
-                      </div>
-                    </Button>
-                    <Button variant="outline" className="text-left h-auto p-4 hover:bg-yellow-50">
-                      <div>
-                        <div className="font-semibold">🎨 Раскраски</div>
-                        <div className="text-sm text-gray-600">Раскрась символы России</div>
-                      </div>
+                    <Button variant="outline" className="hover:bg-pink-50">
+                      <Icon name="Calendar" className="mr-2" size={16} />
+                      Расписание передач
                     </Button>
                   </div>
                 </CardContent>
@@ -351,19 +373,22 @@ const Index = () => {
                 <CardContent className="space-y-4">
                   {currentUser?.role === 'curator' ? (
                     <div className="space-y-3">
-                      <Button className="w-full bg-green-600 hover:bg-green-700">
-                        <Icon name="Upload" className="mr-2" size={16} />
-                        Загрузить материалы
+                      <Button 
+                        className="w-full bg-green-600 hover:bg-green-700 transition-all duration-300 hover:scale-105"
+                        onClick={() => setShowAdminPanel(true)}
+                      >
+                        <Icon name="Settings" className="mr-2" size={16} />
+                        Панель управления
                       </Button>
-                      <Button className="w-full bg-blue-600 hover:bg-blue-700">
+                      <Button className="w-full bg-blue-600 hover:bg-blue-700 transition-all duration-300 hover:scale-105">
                         <Icon name="Edit" className="mr-2" size={16} />
                         Редактировать содержимое
                       </Button>
-                      <Button className="w-full bg-purple-600 hover:bg-purple-700">
+                      <Button className="w-full bg-purple-600 hover:bg-purple-700 transition-all duration-300 hover:scale-105">
                         <Icon name="Users" className="mr-2" size={16} />
                         Управление пользователями
                       </Button>
-                      <Button className="w-full bg-orange-600 hover:bg-orange-700">
+                      <Button className="w-full bg-orange-600 hover:bg-orange-700 transition-all duration-300 hover:scale-105">
                         <Icon name="BarChart3" className="mr-2" size={16} />
                         Статистика проекта
                       </Button>
@@ -480,6 +505,32 @@ const Index = () => {
           </div>
         </div>
       </footer>
+
+      {/* Показывать игры если выбран раздел games */}
+      {currentSection === 'games' && (
+        <div className="fixed inset-0 bg-white z-50 overflow-y-auto">
+          <div className="container mx-auto px-4 py-8">
+            <div className="flex items-center justify-between mb-8">
+              <h1 className="text-3xl font-bold text-gray-800">🎮 Интерактивные игры</h1>
+              <Button 
+                onClick={() => setCurrentSection('home')}
+                variant="outline"
+                className="hover:bg-gray-100"
+              >
+                <Icon name="X" className="mr-2" size={16} />
+                Закрыть
+              </Button>
+            </div>
+            <InteractiveGame />
+          </div>
+        </div>
+      )}
+
+      {/* Панель администратора */}
+      <AdminPanel 
+        isVisible={showAdminPanel}
+        onClose={() => setShowAdminPanel(false)}
+      />
     </div>
   );
 };
